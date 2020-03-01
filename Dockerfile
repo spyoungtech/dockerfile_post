@@ -37,6 +37,20 @@ RUN set -ex \
     && pip install --no-cache-dir -r /requirements.txt \
     \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $BUILD_DEPS \
+    && apt-get purge --allow-remove-essential -y \
+        bash \
+        bsdutils \
+        e2fsprogs \
+        fdisk \
+        findutils \
+        login \
+        mount \
+        ncurses-base \
+        ncurses-bin \
+        sysvinit-utils \
+        util-linux \
+    && rm -f /bin/sh.distrib /var/lib/dpkg/info/dash.postrm \
+    && dpkg -P --force-remove-essential dash \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy your application code to the container (make sure you create a .dockerignore file if any large files or directories should be excluded)
